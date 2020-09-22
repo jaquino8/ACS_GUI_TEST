@@ -8,11 +8,10 @@
 # this path is then calculated and converted to a sequence that can be
 # created into a hologram to be sent to SLM to actuate laser
 
-
-
 from tkinter import *
+from PIL import ImageTk, Image
 import math
-
+import cv2
 
 root = Tk()
 root.title('Calculate distance between two points')
@@ -40,6 +39,20 @@ endY = Entry(root)
 endY.grid(row=1,column=3)
 numOfPoints = Entry(root)
 numOfPoints.grid(row=3,column=1)
+
+cap = cv2.VideoCapture(0)
+app = Frame(root, bg="white")
+app.grid()
+lmain = Label(app)
+lmain.grid()
+def video_stream():
+    _, frame = cap.read()
+    cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
+    img = Image.fromarray(cv2image)
+    imgtk = ImageTk.PhotoImage(image=img)
+    lmain.imgtk = imgtk
+    lmain.configure(image=imgtk)
+    lmain.after(1, video_stream)
 
 #creates textbox to display output of path generation calculations
 textBox = Text(root, height = 20,width = 80)
@@ -86,4 +99,5 @@ myButton = Button(root, text="Get Path",command=myClick)
 myButton.grid(row=0,column=10)
 
 #loop to keep GUI open
+video_stream()
 root.mainloop()
