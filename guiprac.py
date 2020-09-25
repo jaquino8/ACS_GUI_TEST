@@ -47,6 +47,7 @@ lmain = Label(app)
 lmain.grid()
 def video_stream():
     _, frame = cap.read()
+    cv2.circle(frame, (50,20), 15, (0, 255, 255), -1)
     cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
     img = Image.fromarray(cv2image)
     imgtk = ImageTk.PhotoImage(image=img)
