@@ -45,15 +45,27 @@ app = Frame(root, bg="white")
 app.grid()
 lmain = Label(app)
 lmain.grid()
+circlePosition = None
 def video_stream():
     _, frame = cap.read()
-    cv2.circle(frame, (50,20), 15, (0, 255, 255), -1)
+
+    if(circlePosition):
+        cv2.circle(frame, circlePosition, 15, (0, 255, 255), -1)
     cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
     img = Image.fromarray(cv2image)
     imgtk = ImageTk.PhotoImage(image=img)
     lmain.imgtk = imgtk
     lmain.configure(image=imgtk)
     lmain.after(1, video_stream)
+
+def setStart(event, x, y, flags, params):
+
+    if event == cv2.EVENT_LBUTTONDOWN:
+        global circlePosition 
+        circlePosition = (x, y)
+        
+cv2.namedWindow('frame')
+cv2.setMouseCallback('frame', click_event)
 
 #creates textbox to display output of path generation calculations
 textBox = Text(root, height = 20,width = 80)
