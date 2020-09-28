@@ -1,12 +1,13 @@
 import tkinter as tk
 from widgets.Controls import LeftControlPanel
 from widgets.VideoWidget import VideoWidget
-
+from DataEventController import DEC
 
 class TopWindow(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
+        self.parent.title("WIP SLM CONTROL PANEL")
 
         self.LeftControlPanel = LeftControlPanel(self)
         self.VideoWidget = VideoWidget(self)
@@ -24,5 +25,9 @@ class TopWindow(tk.Frame):
     
 if __name__ == "__main__":
     root = tk.Tk()
-    TopWindow(root).pack(side="top", fill="both", expand=True)
+    TW = TopWindow(root)
+    TW.pack(side="top", fill="both", expand=True)
+
+    DEC = DEC(TW)
+
     root.mainloop()
