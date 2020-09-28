@@ -8,6 +8,10 @@ class VideoWidget(tk.Frame):
         self.parent = parent
         
         # points: [ ((x, y), (R, B, G)), ..., ((x, y), (B, G, R))]
+
+        # dictionary of lines
+        # { "LineID": [List of points on the line], ..., "LineIDX" :[]}
+        self.lines = dict() 
         self.points = [] 
         self.startPoint = None
         self.endPoint = None
@@ -23,7 +27,7 @@ class VideoWidget(tk.Frame):
 
         self.videoFrame = tk.Frame(self.parent)
         
-        dimensionText = str(self.width) + "X" + str(self.height)
+        dimensionText = str(self.width) + " X " + str(self.height)
 
         self.dimensionDisplay = tk.Label(self.videoFrame, text=dimensionText)
         self.dimensionDisplay.grid(row=0, column=0, sticky="NW")
@@ -58,6 +62,12 @@ class VideoWidget(tk.Frame):
             self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
             self.videoCanvas.create_image(0, 0, image= self.photo, anchor = tk.NW)        
 
+    def addLine(self, lineID, points):
+        self.lines[lineID] = points
+
+    def drawLines(self):
+        raise NotImplementedError
+        
     # Color: (B, G, R)
     def drawPoint(self, x, y, color, position):
         

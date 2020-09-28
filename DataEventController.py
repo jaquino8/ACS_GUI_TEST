@@ -7,6 +7,13 @@ class DEC:
 
         self.bindEvents()
 
+        # dictionairy of lines
+        # { "LineID": [List of points on the line], ..., "LineIDX" :[]}
+        # point format: ((x, y), (B, G, R))
+        self.lines = dict() 
+
+        pointCollections = None # should be a collection of points
+
     def bindEvents(self):
 
         self.TopWindow.LeftControlPanel.setButtonSX.bind("<Button-1>", self.saveStartEvent)
@@ -14,7 +21,7 @@ class DEC:
 
     def saveStartEvent(self, event):
         point = self.TopWindow.LeftControlPanel.getStartEntry()
-
+        # (x, y)
         self.TopWindow.VideoWidget.drawPoint(point[0], point[1], (0, 255, 255), 0)
 
     def saveEndEvent(self, event):
@@ -23,4 +30,4 @@ class DEC:
 
         self.TopWindow.VideoWidget.drawPoint(points[0], points[1], (0, 255, 0), 1)
 
-
+    
