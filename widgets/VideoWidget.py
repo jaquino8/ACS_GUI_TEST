@@ -43,9 +43,9 @@ class VideoWidget(tk.Frame):
 
             if (ret):
                 if(self.startPoint):
-                    cv2.circle(frame, self.startPoint[0], 5, self.startPoint[1], -1)
+                    cv2.circle(frame, self.startPoint[0], 5, self.startPoint[1], 0.1)
                 if(self.endPoint):
-                    cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
+                    cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], 0.1)
                 if (self.points):
                     for point in self.points: 
                         cv2.circle(frame, point[0], 5, point[1], -1)
@@ -72,9 +72,9 @@ class VideoWidget(tk.Frame):
     def drawPoint(self, x, y, color, position):
         
         if( 0 <= x <= self.width and 0 <= y <= self.height):
-            if (position == 0):
+            if (position == 0): #starting point
                 self.startPoint = ((x, y), color)
-            elif (position == 1):
+            elif (position == 1): #end point
                 self.endPoint = ((x, y), color)
             else:
                 self.points.append((x, y), color)
