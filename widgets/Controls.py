@@ -59,6 +59,11 @@ class LeftControlPanel(tk.Frame):
         self.setButtonEX = tk.Button(endPoint, text="Set", width=15)
         self.setButtonEX.grid(row=2, column=0, columnspan=2)
 
+        drawButton = tk.Frame(self.panel)
+        drawButton.grid(row=2, column=0)
+        self.buttonDrawButton = tk.Button(drawButton, text="DRAW LINE", width=15)
+        self.buttonDrawButton.grid(row=0, column=0)
+        
 
     def getStartEntry(self):
 

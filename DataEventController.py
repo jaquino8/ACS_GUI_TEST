@@ -18,6 +18,7 @@ class DEC:
 
         self.TopWindow.LeftControlPanel.setButtonSX.bind("<Button-1>", self.saveStartEvent)
         self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.saveEndEvent)
+        self.TopWindow.LeftControlPanel.buttonDrawButton.bind("<Button-1>", self.drawLineEvent)
 
     def saveStartEvent(self, event):
         point = self.TopWindow.LeftControlPanel.getStartEntry()
@@ -30,4 +31,8 @@ class DEC:
 
         self.TopWindow.VideoWidget.drawPoint(points[0], points[1], (0, 255, 0), 1)
 
+    def drawLineEvent(self, event):
+        line = [(4, 6), (10, 15), (20, 54), (30, 83), (40, 94), (50, 103), (60, 209), (80, 376), (90, 400)]
+
+        self.TopWindow.VideoWidget.drawLineSimple(line)
     

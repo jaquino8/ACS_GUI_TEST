@@ -34,21 +34,21 @@ class VideoWidget(tk.Frame):
 
         self.videoCanvas = tk.Canvas(self.videoFrame, width = self.width, height = self.height)
         self.videoCanvas.grid(row=1, column=0)
-
-        self.startPoint = None
         
     def get_frame(self):
         if (self.vid.isOpened()):
             ret, frame = self.vid.read()
 
             if (ret):
-                if(self.startPoint):
+                
+                """if(self.startPoint):
                     cv2.circle(frame, self.startPoint[0], 5, self.startPoint[1], -1)
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
+                """
                 if (self.points):
                     for point in self.points: 
-                        cv2.circle(frame, point[0], 5, point[1], -1)
+                        cv2.circle(frame, point, 5, (255, 0, 0), 2)
                 return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             else:
                 return (ret, None)
@@ -64,6 +64,10 @@ class VideoWidget(tk.Frame):
 
     def addLine(self, lineID, points):
         self.lines[lineID] = points
+
+    def drawLineSimple(self, line):
+        # Will add points to draw, will be static on the video feed
+        self.points = line
 
     def drawLines(self):
         raise NotImplementedError
