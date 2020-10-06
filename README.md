@@ -1,5 +1,6 @@
 # ACS_GUI_TEST
  ACS GUI via Python with Tkinter
+ Has an updated GUI and a (not fully implemented) path coordinate generator between start and end.
  
 For questions: ask Emil in the Group Discord
 or Email at emil.agonoy2@gmail.com
