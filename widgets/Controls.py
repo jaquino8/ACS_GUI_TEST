@@ -30,10 +30,6 @@ class LeftControlPanel(tk.Frame):
         parenthCharSX2 = tk.Label(startPoint,text =")")
         parenthCharSX2.grid(row=1,column=4)
 
-        #needs to be deleted
-        #Starting point Button Set: setButtonSX
-        #self.setButtonSX = tk.Button(startPoint, text="Set", width=15)
-        #self.setButtonSX.grid(row=2, column=0, columnspan=2)
         
         # Endpoint 
         endPoint = tk.Frame(self.panel)
@@ -57,9 +53,22 @@ class LeftControlPanel(tk.Frame):
         parenthCharEX2 = tk.Label(endPoint,text =")")
         parenthCharEX2.grid(row=1,column=4)
 
+        # Number of Points
+        numPoints = tk.Frame(self.panel)
+        numPoints.grid(row=4, column=0)
+
+        numPointsLabel = tk.Label(numPoints, text = "How Many Points?")
+        numPointsLabel.grid(row=0, column=0, columnspan=2)
+
+        self.numPointsEntry = tk.Entry(numPoints)
+        self.numPointsEntry.grid(row=1, column=1)
+
+
         #press button to get coordinates and then calculate the path
-        self.setButtonEX = tk.Button(endPoint, text="Set", width=15)
-        self.setButtonEX.grid(row=2, column=0, columnspan=2)
+        self.setButtonEX = tk.Button(numPoints, text="Set", width=15)
+        self.setButtonEX.grid(row=5, column=0, columnspan=2)
+
+
 
 
     def getStartEntry(self):
@@ -75,3 +84,7 @@ class LeftControlPanel(tk.Frame):
         y = self.endYEntry.get()
         
         return (int(x), int(y))
+
+    def getNumOfPoints(self):
+        numPoints = self.numOfPointsEntry.get()
+        return numPoints

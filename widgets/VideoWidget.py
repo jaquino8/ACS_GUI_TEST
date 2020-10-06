@@ -15,6 +15,7 @@ class VideoWidget(tk.Frame):
         self.points = [] 
         self.startPoint = None
         self.endPoint = None
+        self.numOfPoints = None
         
         self.video_source = 0 # determines the video feed
         self.vid = cv2.VideoCapture(self.video_source)

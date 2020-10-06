@@ -12,47 +12,49 @@ class DEC:
         # point format: ((x, y), (B, G, R))
         self.lines = dict() 
 
-        #UNUSED -- pointCollections = None # should be a collection of points
+        pointCollections = None # should be a collection of points
 
     def bindEvents(self):
 
-        self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.calculatePath)
-        #REMOVED -- self.TopWindow.LeftControlPanel.setButtonSX.bind("<Btton-1>", self.saveEvent)
+        #self.TopWindow.LeftControlPanel.setButtonSX.bind("<Button-1>", self.saveEvent)
+        self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.saveEndEvent)
 
-    def calculatePath(self, event):
+
+    
+
+    def calculatePath(self):
         startPoint = self.TopWindow.LeftControlPanel.getStartEntry()
         endPoint = self.TopWindow.LeftControlPanel.getEndEntry()
+        numOfPoints = self.TopWindow.LeftControlPanel.getNumOfPoints()
                             #change in x              #change in y
-        distance = (endPoint[0]-startPoint[0], endPoint[1]-startPoint[1])
-        numOfPoints = 5
-        deltaX = (distance[0]/numOfPoints)
+        distance = (endPoint[0]-startPoint[0], endPoint[1]-endPoint[1])
+        deltaX = float(distance[0]/numOfPoints)
         #print("Change in X: ",deltaX)
-        deltaY = (distance[1]/numOfPoints)
+        deltaY = float(distance[1]/numOfPoints)
         #print("Change in Y: ",deltaY)
-        pathCoords = [0] * int(numOfPoints + 1)
+        pathCoords = []
         i = 0
-        while i < len(pathCoords):
+        while i < numOfPoints:
             newX = startPoint[0] + i * deltaX
             newY = startPoint[1] + i * deltaY
-            pathCoords[i] = (newX,newY)
-            self.TopWindow.VideoWidget.drawPoint(int(newX), int(newY), (0, 255, 255), 0)
+            pathCoords.append((newX,newY))
             i += 1 
             
-        
         #generate an array of coordinates
+        return pathCoords
 
     #combine these and just draw all points
-    def saveEvents(self, event):
-        point = self.TopWindow.LeftControlPanel.getStartEntry()
+    def saveEvent(self, event):
+        points = []
+        points = self.calculatePath()
 
-        self.TopWindow.VideoWidget.drawPoint(point[0], point[1], (0, 255, 255), 0)
+        for point in points:
+            self.TopWindow.VideoWidget.drawPoint(int(point[0]), int(point[1]), (0, 255, 255), 0)
+
+    def saveEndEvent(self, event):
 
         points = self.TopWindow.LeftControlPanel.getEndEntry()
 
-        self.TopWindow.VideoWidget.drawPoint(points[0], points[1], (0, 255, 0), 1)
-
-    #REMOVED -- def saveEndEvent(self, event):
-
-
+        self.TopWindow.VideoWidget.drawPoint(int(points[0]), int(points[1]), (0, 255, 0), 1)
 
     
