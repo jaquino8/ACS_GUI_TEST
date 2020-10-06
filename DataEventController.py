@@ -16,10 +16,16 @@ class DEC:
 
     def bindEvents(self):
 
+        self.TopWindow.LeftControlPanel.setButtonSX.bind("<Button-1>", self.saveStartEvent)
+        self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.saveEndEvent)
+        self.TopWindow.LeftControlPanel.buttonDrawButton.bind("<Button-1>", self.drawLineEvent)
+
+    def saveStartEvent(self, event):
         self.TopWindow.LeftControlPanel.setButtonSX.bind("<Button-1>", self.saveEvents)
         #self.TopWindow.LeftControlPanel.setButtonEX.bind("<Btton-1>", self.saveEndEvent)
 
-    def calculatePath(self, event){
+    def calculatePath(self):
+        numOfPoints = 10
         startPoint = self.TopWindow.LeftControlPanel.getStartEntry()
         endPoint = self.TopWindow.LeftControlPanel.getEndEntry()
                             #change in x              #change in y
@@ -28,16 +34,16 @@ class DEC:
         #print("Change in X: ",deltaX)
         deltaY = float(distance[1]/numOfPoints)
         #print("Change in Y: ",deltaY)
-        pathCoords = [0] * int(numOfPoints + 1)
+        pathCoords =[]
         i = 0
         while i < len(pathCoords):
             newX = x1 + i * deltaX
             newY = y1 + i * deltaY
-            pathCoords[i] = (newX,newY)
+            pathCoords.append((newx, newy))
             i += 1 
-            }
+
         #generate an array of coordinates
-    }
+        return pathCoords
 
     #combine these and just draw all points
     def saveEvent(self, event):
@@ -51,4 +57,8 @@ class DEC:
 
         self.TopWindow.VideoWidget.drawPoint(points[0], points[1], (0, 255, 0), 1)
 
+    def drawLineEvent(self, event):
+        line = self.calculatePath()
+        print(line)
+        self.TopWindow.VideoWidget.drawLineSimple(line)
     
