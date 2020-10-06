@@ -48,7 +48,7 @@ class VideoWidget(tk.Frame):
                 """
                 if (self.points):
                     for point in self.points: 
-                        cv2.circle(frame, point, 5, (255, 0, 0), 2)
+                        cv2.circle(frame, point, 5, (255, 255, 0), 1)
                 return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             else:
                 return (ret, None)
