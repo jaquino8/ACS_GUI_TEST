@@ -31,9 +31,9 @@ class LeftControlPanel(tk.Frame):
         parenthCharSX2.grid(row=1,column=4)
 
         #needs to be deleted
-        # Starting point Button Set: setButtonSX
-        self.setButtonSX = tk.Button(startPoint, text="Set", width=15)
-        self.setButtonSX.grid(row=2, column=0, columnspan=2)
+        #Starting point Button Set: setButtonSX
+        #self.setButtonSX = tk.Button(startPoint, text="Set", width=15)
+        #self.setButtonSX.grid(row=2, column=0, columnspan=2)
         
         # Endpoint 
         endPoint = tk.Frame(self.panel)
