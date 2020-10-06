@@ -10,7 +10,7 @@ class TopWindow(tk.Frame):
         self.parent.title("WIP SLM CONTROL PANEL")
 
         self.LeftControlPanel = LeftControlPanel(self)
-        self.VideoWidget = VideoWidget(self)
+        self.VideoWidget =  VideoWidget(self)
 
         self.LeftControlPanel.panel.grid(row=0, column=0, stick="NW")
         self.VideoWidget.videoFrame.grid(row=0, column=1)

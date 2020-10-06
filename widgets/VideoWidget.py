@@ -76,9 +76,9 @@ class VideoWidget(tk.Frame):
     def drawPoint(self, x, y, color, position):
         
         if( 0 <= x <= self.width and 0 <= y <= self.height):
-            if (position == 0):
+            if (position == 0): #starting point
                 self.startPoint = ((x, y), color)
-            elif (position == 1):
+            elif (position == 1): #end point
                 self.endPoint = ((x, y), color)
             else:
                 self.points.append((x, y), color)
