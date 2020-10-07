@@ -52,11 +52,22 @@ class LeftControlPanel(tk.Frame):
         parenthCharEX2 = tk.Label(endPoint,text =")")
         parenthCharEX2.grid(row=1,column=4)
 
-        drawButton = tk.Frame(self.panel)
-        drawButton.grid(row=2, column=0)
-        self.buttonDrawButton = tk.Button(drawButton, text="DRAW LINE", width=15)
-        self.buttonDrawButton.grid(row=0, column=0)
-        
+        # Number of Points
+        numPoints = tk.Frame(self.panel)
+        numPoints.grid(row=4, column=0)
+
+        numPointsLabel = tk.Label(numPoints, text = "How Many Points?")
+        numPointsLabel.grid(row=0, column=0, columnspan=2)
+
+        self.numOfPointsEntry = tk.Entry(numPoints)
+        self.numOfPointsEntry.grid(row=1, column=1)
+
+        #press button to get coordinates and then calculate the path
+        self.setButtonEX = tk.Button(numPoints, text="Set", width=15)
+        self.setButtonEX.grid(row=5, column=0, columnspan=2)
+
+
+
 
     def getStartEntry(self):
 
@@ -71,3 +82,7 @@ class LeftControlPanel(tk.Frame):
         y = self.endYEntry.get()
         
         return (int(x), int(y))
+
+    def getNumOfPoints(self):
+        numPoints = self.numOfPointsEntry.get()
+        return int(numPoints)

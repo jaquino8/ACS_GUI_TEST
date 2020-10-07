@@ -10,6 +10,12 @@ tkinter (Already Included with installation of Python)
 opencv-python: Opencv library for python. (Install pip install opencv-python)
 PILLOW: Python Imaging Library. (Install: pip install Pillow)
 
+### Current Features
+- Display of Video Feed From Default Video Source
+- Entries for Start and End Coordinates
+- Entry for Number of Points Between Start and Entry
+- Set Button to Calculate and Draw Points on the Video Feed
+
 ### Good Websites for Python Reference:
 - https://www.geeksforgeeks.org/python-programming-language/
 - https://www.w3schools.com/python/
