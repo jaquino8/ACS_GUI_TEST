@@ -13,9 +13,6 @@ class VideoWidget(tk.Frame):
         # { "LineID": [List of points on the line], ..., "LineIDX" :[]}
         self.lines = dict() 
         self.points = [] 
-        self.startPoint = None
-        self.endPoint = None
-        self.numOfPoints = None
         
         self.video_source = 0 # determines the video feed
         self.vid = cv2.VideoCapture(self.video_source)
@@ -41,15 +38,15 @@ class VideoWidget(tk.Frame):
             ret, frame = self.vid.read()
 
             if (ret):
-                
-                """if(self.startPoint):
-                    cv2.circle(frame, self.startPoint[0], 5, self.startPoint[1], -1)
-                if(self.endPoint):
-                    cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
-                """
-                if (self.points):
+                if (self.points): # draws start and End points
                     for point in self.points: 
-                        cv2.circle(frame, point, 5, (0, 0, 255), 1)
+                        cv2.circle(frame, point, 5, (0, 255, 255), 1)
+
+                if (self.lines): # draws entire line
+                    for line in self.lines:
+                        for point in self.lines[line][0]:
+                            cv2.circle(frame, point, 5, self.lines[line][1], 1)
+
                 return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             else:
                 return (ret, None)
@@ -58,21 +55,20 @@ class VideoWidget(tk.Frame):
 
     def update(self):
         ret, frame = self.get_frame()
-
+        
         if (ret):
             self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
             self.videoCanvas.create_image(0, 0, image= self.photo, anchor = tk.NW)        
 
-    def addLine(self, lineID, points):
-        self.lines[lineID] = points
+    def addLine(self, lineID, points, color=(0, 0, 255)):
+        self.lines[lineID] = (points, color)
+
+        print(self.lines[lineID])
 
     def drawLineSimple(self, line):
         # Will add points to draw, will be static on the video feed
         self.points = line
-
-    def drawLines(self):
-        raise NotImplementedError
-        
+    
     # Color: (B, G, R)
     def drawPoint(self, x, y, color, position):
         

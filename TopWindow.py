@@ -19,6 +19,7 @@ class TopWindow(tk.Frame):
 
     def update(self):
         self.VideoWidget.update()
+        self.LeftControlPanel.testStartEntry()
         msDelay = 15
         self.parent.after(msDelay, self.update)
 

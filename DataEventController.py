@@ -16,8 +16,8 @@ class DEC:
 
     def bindEvents(self):
 
-        self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.drawSingleLineEvent)
-
+        self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.drawLineEvent)
+    
     def calculatePath(self):
         startPoint = self.TopWindow.LeftControlPanel.getStartEntry()
         endPoint = self.TopWindow.LeftControlPanel.getEndEntry()
@@ -44,3 +44,8 @@ class DEC:
 
         self.TopWindow.VideoWidget.drawLineSimple(line) 
     
+    def drawLineEvent(self, event):
+
+        line = self.calculatePath()
+
+        self.TopWindow.VideoWidget.addLine("Line0", line)
