@@ -57,14 +57,23 @@ class LeftControlPanel(tk.Frame):
         numPoints.grid(row=4, column=0)
 
         numPointsLabel = tk.Label(numPoints, text = "How Many Points?")
-        numPointsLabel.grid(row=0, column=0, columnspan=2)
+        numPointsLabel.grid(row=0,columnspan=3)
 
         self.numOfPointsEntry = tk.Entry(numPoints)
         self.numOfPointsEntry.grid(row=1, column=1)
 
+        selectFuncLabel = tk.Label(numPoints, text ="Which Movement Function?")
+        selectFuncLabel.grid(row=2,columnspan=3)
+        
+        self.listbox = tk.Listbox(numPoints,height=2,selectmode="SINGLE")
+        self.listbox.grid(row=3,columnspan=3)
+        self.listbox.insert(1, "Linear Movement")
+        self.listbox.insert(2, "Arc Movement")
+
+
         #press button to get coordinates and then calculate the path
         self.setButtonEX = tk.Button(numPoints, text="Set", width=15)
-        self.setButtonEX.grid(row=5, column=0, columnspan=2)
+        self.setButtonEX.grid(row=4, column=0, columnspan=3)
 
 
 
@@ -86,3 +95,8 @@ class LeftControlPanel(tk.Frame):
     def getNumOfPoints(self):
         numPoints = self.numOfPointsEntry.get()
         return int(numPoints)
+
+    def getFunc(self):
+        index = int(self.listbox.curselection()[0])
+        function = str(self.listbox.get(index))
+        return function
