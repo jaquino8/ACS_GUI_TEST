@@ -1,10 +1,13 @@
 import tkinter as tk
+from widgets.Controls import LeftControlPanel
+from widgets.VideoWidget import VideoWidget
 import math
 
 class DEC:
-    def __init__(self, TopWindow):
+    def __init__(self, TopWindow, VideoWidget):
         
         self.TopWindow = TopWindow
+        self.VideoWidget = VideoWidget
 
         self.bindEvents()
 
@@ -18,7 +21,13 @@ class DEC:
     def bindEvents(self):
 
         self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.drawSingleLineEvent)
+        self.TopWindow.VideoWidget.bind_class("Canvas","<Button-1>",self.clickCoordinates)
+        #self.VideoWidget.bind("<Button-1>",self.clickCoordinates)
 
+    def test(self,event):
+        print("click registered!")
+        print("(" + str(event.x) + "," + str(event.y) + ")")
+        clickPoint = (event.x,event.y)
 
     def arcPath(self):
         startPoint = self.TopWindow.LeftControlPanel.getStartEntry()
@@ -50,7 +59,7 @@ class DEC:
 
         pathCoords = []
         i = 0
-        print("Arch Path: ")
+        print("Arc Path: ")
         while i < numOfPoints:
             newX = int(radius * math.cos( (i*degreePerMove) + theta ) + midPoint[0])
             newY = int(radius * math.sin( (i*degreePerMove) + theta ) + midPoint[1])
@@ -95,6 +104,10 @@ class DEC:
         function = switcher.get(movementFunc)
         return function()
 
+    def clickCoordinates(self,event):
+        clickPoint = (event.x,event.y)
+        print(clickPoint)
+        self.TopWindow.LeftControlPanel.setStartPoint(clickPoint)
         
 
     def drawSingleLineEvent(self, event):

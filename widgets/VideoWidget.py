@@ -6,6 +6,8 @@ class VideoWidget(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
+
+        #self.LeftControlPanel = LeftControlPanel(self)
         
         # points: [ ((x, y), (R, B, G)), ..., ((x, y), (B, G, R))]
 
@@ -16,10 +18,13 @@ class VideoWidget(tk.Frame):
         self.startPoint = None
         self.endPoint = None
         self.numOfPoints = None
-        self.listbox = None
+        self.clickPoint = None
         
         self.video_source = 0 # determines the video feed
         self.vid = cv2.VideoCapture(self.video_source)
+
+        #cv2.namedWindow('Video')
+        #cv2.setMouseCallback('Video',self.click_event)
 
         if (not self.vid.isOpened):
             raise ValueError("Unable to open video source", video_source)
@@ -48,6 +53,7 @@ class VideoWidget(tk.Frame):
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
+                #cv2.imshow('Video', frame)
                 if (self.points):
                     for point in self.points: 
                         cv2.circle(frame, point, 5, (0, 0, 255), 1)
@@ -84,6 +90,17 @@ class VideoWidget(tk.Frame):
                 self.endPoint = ((x, y), color)
             else:
                 self.points.append((x, y), color)
+
+    
+    def click_event(self, event, x, y, flags, params):
+        if event == cv2.EVENT_LBUTTONDOWN:
+            global clickPoint
+            clickPoint = (x,y)
+            #print(clickPoint)
+            
+            
+    def getClickPoint(self):
+        return clickPoint
 
     def __del__(self):
         if (self.vid.isOpened()):

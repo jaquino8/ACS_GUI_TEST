@@ -5,6 +5,7 @@ class LeftControlPanel(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
+    
         # Whole Panel
         self.panel = tk.Frame(self.parent)
 
@@ -12,8 +13,10 @@ class LeftControlPanel(tk.Frame):
         startPoint = tk.Frame(self.panel)
         startPoint.grid(row=0, column=0)
         
+
         StartLabel = tk.Label(startPoint, text = "Starting Point: (x, y)")
         StartLabel.grid(row=0, column=0, columnspan=2)
+
 
         parenthCharSX1 = tk.Label(startPoint,text ="(")
         parenthCharSX1.grid(row=1, column=0)
@@ -52,9 +55,21 @@ class LeftControlPanel(tk.Frame):
         parenthCharEX2 = tk.Label(endPoint,text =")")
         parenthCharEX2.grid(row=1,column=4)
 
+        
+
+        # Given Radius Value:
+        # radiusValue = tk.Frame(self.panel)
+        # radiusValue.grid(row=4,column=0)
+
+        # radiusValueLabel = tk.Label(radiusValue, text = "Radius")
+        # radiusValueLabel.grid(row=0,columnspan=3)
+
+        # self.radiusValueEntry = tk.Entry(radiusValue)
+        # self.radiusValueEntry.grid(row=1, column=1)
+
         # Number of Points
         numPoints = tk.Frame(self.panel)
-        numPoints.grid(row=4, column=0)
+        numPoints.grid(row=5, column=0)
 
         numPointsLabel = tk.Label(numPoints, text = "How Many Points?")
         numPointsLabel.grid(row=0,columnspan=3)
@@ -65,18 +80,32 @@ class LeftControlPanel(tk.Frame):
         selectFuncLabel = tk.Label(numPoints, text ="Which Movement Function?")
         selectFuncLabel.grid(row=2,columnspan=3)
         
-        self.listbox = tk.Listbox(numPoints,height=2,selectmode="SINGLE")
+        self.listbox = tk.Listbox(numPoints,height=2,width=25,selectmode="SINGLE")
         self.listbox.grid(row=3,columnspan=3)
         self.listbox.insert(1, "Linear Movement")
         self.listbox.insert(2, "Arc Movement")
+       #self.listbox.insert(2, "Arc Movement by Radius")
 
 
         #press button to get coordinates and then calculate the path
         self.setButtonEX = tk.Button(numPoints, text="Set", width=15)
         self.setButtonEX.grid(row=4, column=0, columnspan=3)
 
+        outputBox = tk.Frame(self.panel)
+        outputBox.grid(row=6,column=0)
+        self.startPointInfo = tk.Label(outputBox, text = "Start Point: ")
+        self.startPointInfo.grid(row=0,column=0)
+        self.textBox = tk.Text(outputBox, height = 1,width = 12)
+        self.textBox.grid(row=0,column=1)
+        self.textBox.insert(tk.END,"Hello")
 
-
+    def setStartPoint(self,point):
+        print("this function was called")
+        self.textBox.delete('1.0',tk.END)
+        output = "(" + str(point[0]) + "," + str(point[1]) + ")"
+        print(output)
+        self.textBox.insert(tk.END,output)
+        self.update()
 
     def getStartEntry(self):
 

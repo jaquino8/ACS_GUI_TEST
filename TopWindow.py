@@ -26,8 +26,9 @@ class TopWindow(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     TW = TopWindow(root)
+    VW = VideoWidget(root)
     TW.pack(side="top", fill="both", expand=True)
 
-    DEC = DEC(TW)
+    DEC = DEC(TW, VW)
 
     root.mainloop()
