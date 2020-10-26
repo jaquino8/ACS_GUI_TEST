@@ -106,8 +106,8 @@ class DEC:
 
     def clickCoordinates(self,event):
         clickPoint = (event.x,event.y)
-        print(clickPoint)
-        self.TopWindow.LeftControlPanel.setStartPoint(clickPoint)
+        #print(clickPoint)
+        self.TopWindow.LeftControlPanel.setROIPoint(clickPoint)
         
 
     def drawSingleLineEvent(self, event):
