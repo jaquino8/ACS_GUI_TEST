@@ -22,12 +22,7 @@ class DEC:
 
         self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.drawSingleLineEvent)
         self.TopWindow.VideoWidget.bind_class("Canvas","<Button-1>",self.clickCoordinates)
-        #self.VideoWidget.bind("<Button-1>",self.clickCoordinates)
 
-    def test(self,event):
-        print("click registered!")
-        print("(" + str(event.x) + "," + str(event.y) + ")")
-        clickPoint = (event.x,event.y)
 
     def arcPath(self):
         startPoint = self.TopWindow.LeftControlPanel.getStartEntry()

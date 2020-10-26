@@ -87,8 +87,8 @@ class LeftControlPanel(tk.Frame):
         selectFuncLabel = tk.Label(numPoints, text ="Which Movement Function?")
         selectFuncLabel.grid(row=2,columnspan=3)
         
-        self.listbox = tk.Listbox(numPoints,height=2,width=25,selectmode="SINGLE")
-        self.listbox.grid(row=3,columnspan=3)
+        self.listbox = tk.Listbox(numPoints,height=2,width=18,selectmode="SINGLE")
+        self.listbox.grid(row=3,columnspan=5)
         self.listbox.insert(1, "Linear Movement")
         self.listbox.insert(2, "Arc Movement")
        #self.listbox.insert(2, "Arc Movement by Radius")
