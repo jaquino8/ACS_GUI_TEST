@@ -1,5 +1,6 @@
 import tkinter as tk
 import cv2 as cv2
+import numpy as np
 import PIL.Image, PIL.ImageTk
 
 class VideoWidget(tk.Frame):
@@ -53,6 +54,16 @@ class VideoWidget(tk.Frame):
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT,1.2,100)
+
+                if circles is not None:
+                    circles = np.round(circles[0, :]).astype("int")
+                    
+                    for (x, y, r) in circles:
+                        cv2.circle(frame, (x,y), r, (0,255,0), 4)
+                        print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
+                
                 #cv2.imshow('Video', frame)
                 if (self.points):
                     for point in self.points: 

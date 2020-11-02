@@ -16,7 +16,7 @@ class DEC:
         # point format: ((x, y), (B, G, R))
         self.lines = dict() 
 
-        pointCollections = None # should be a collection of points
+        # pointCollections = None # should be a collection of points
 
     def bindEvents(self):
 
@@ -109,4 +109,3 @@ class DEC:
         line = self.calculatePath()
 
         self.TopWindow.VideoWidget.drawLineSimple(line) 
-    
