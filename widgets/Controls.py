@@ -47,32 +47,7 @@ class LeftControlPanel(tk.Frame):
         self.ROIPointInfo.grid(row=0,column=0)
         self.ROItextBox = tk.Text(endPoint, state=tk.DISABLED, height = 1,width = 12)
         self.ROItextBox.grid(row=0,column=1)
-        #parenthCharEX1 = tk.Label(endPoint,text ="(")
-        #parenthCharEX1.grid(row=1, column=0)
-
-        #self.endXEntry = tk.Entry(endPoint)
-        #self.endXEntry.grid(row=1, column=1)
-
-        #commaCharEX = tk.Label(endPoint, text =",")
-        #commaCharEX.grid(row=1, column=2)
-
-        #self.endYEntry = tk.Entry(endPoint)
-        #self.endYEntry.grid(row=1,column=3)
-
-        #parenthCharEX2 = tk.Label(endPoint,text =")")
-        #parenthCharEX2.grid(row=1,column=4)
-
-        
-
-        # Given Radius Value:
-        # radiusValue = tk.Frame(self.panel)
-        # radiusValue.grid(row=4,column=0)
-
-        # radiusValueLabel = tk.Label(radiusValue, text = "Radius")
-        # radiusValueLabel.grid(row=0,columnspan=3)
-
-        # self.radiusValueEntry = tk.Entry(radiusValue)
-        # self.radiusValueEntry.grid(row=1, column=1)
+    
 
         # Number of Points
         numPoints = tk.Frame(self.panel)
@@ -91,12 +66,36 @@ class LeftControlPanel(tk.Frame):
         self.listbox.grid(row=3,columnspan=5)
         self.listbox.insert(1, "Linear Movement")
         self.listbox.insert(2, "Arc Movement")
-       #self.listbox.insert(2, "Arc Movement by Radius")
+        #self.listbox.insert(2, "Arc Movement by Radius")
 
 
         #press button to get coordinates and then calculate the path
         self.setButtonEX = tk.Button(numPoints, text="Set", width=15)
         self.setButtonEX.grid(row=4, column=0, columnspan=3)
+
+        #settings to change circle detect settings:
+        cirDetectSettings = tk.Frame(self.panel)
+        cirDetectSettings.grid(row=5,column=0)
+
+        minRadiusLabel = tk.Label(cirDetectSettings, text= "Min Radius:")
+        minRadiusLabel.grid(row=0,column=0)
+
+        self.minRadiusEntry = tk.Entry(cirDetectSettings, width=10)
+        self.minRadiusEntry.grid(row=0,column=1)
+
+        minRadiusLabel = tk.Label(cirDetectSettings, text= "Max Radius:")
+        minRadiusLabel.grid(row=1,column=0)
+        
+        self.maxRadiusEntry = tk.Entry(cirDetectSettings, width=10)
+        self.maxRadiusEntry.grid(row=1,column=1)
+
+        self.detectedCircles = tk.Label(cirDetectSettings, text = "Circles Detected: ")
+        self.detectedCircles.grid(row=2,column=0)
+        self.detectedCirclestextBox = tk.Text(cirDetectSettings, state=tk.DISABLED, height = 1,width = 3)
+        self.detectedCirclestextBox.grid(row=2,column=1)
+
+        self.setButtonDetectSettings = tk.Button(cirDetectSettings, text="Set", width=15)
+        self.setButtonDetectSettings.grid(row=3,column=0,columnspan=2)
 
 
     def setROIPoint(self,point):
@@ -131,3 +130,17 @@ class LeftControlPanel(tk.Frame):
         index = int(self.listbox.curselection()[0])
         function = str(self.listbox.get(index))
         return function
+
+        
+    def getDetectSettings(self):
+        minRadius = self.minRadiusEntry.get()
+        maxRadius = self.maxRadiusEntry.get()
+        return (int(minRadius), int(maxRadius))
+
+    def detectedCirCount(self, count):
+        self.detectedCirclestextBox.config(state=tk.NORMAL)
+        self.detectedCirclestextBox.delete('1.0',tk.END)
+        output = str(count)
+        #print(output)
+        self.detectedCirclestextBox.insert(tk.END,output)
+        self.detectedCirclestextBox.config(state=tk.DISABLED)

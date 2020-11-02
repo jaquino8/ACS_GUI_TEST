@@ -17,12 +17,15 @@ class DEC:
         self.lines = dict() 
 
         # pointCollections = None # should be a collection of points
-
+        
     def bindEvents(self):
 
         self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.drawSingleLineEvent)
+        self.TopWindow.LeftControlPanel.setButtonDetectSettings.bind("<Button-1>",self.setDetectSettings)
         self.TopWindow.VideoWidget.bind_class("Canvas","<Button-1>",self.clickCoordinates)
-
+        self.TopWindow.VideoWidget.bind_class("Canvas","<Enter>",self.updateCirCount)
+        self.TopWindow.VideoWidget.bind_class("Canvas","<Leave>",self.updateCirCount)
+        
 
     def arcPath(self):
         startPoint = self.TopWindow.LeftControlPanel.getStartEntry()
@@ -109,3 +112,12 @@ class DEC:
         line = self.calculatePath()
 
         self.TopWindow.VideoWidget.drawLineSimple(line) 
+
+    def setDetectSettings(self, event):
+        print("this function was called")
+        self.VideoWidget.setDetectSettings(self.TopWindow.LeftControlPanel.getDetectSettings())
+     
+        
+    def updateCirCount(self, event):
+        detectedCircles = self.VideoWidget.getDetectedCircles()
+        self.TopWindow.LeftControlPanel.detectedCirCount(len(detectedCircles))

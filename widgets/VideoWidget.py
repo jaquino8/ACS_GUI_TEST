@@ -20,6 +20,11 @@ class VideoWidget(tk.Frame):
         self.endPoint = None
         self.numOfPoints = None
         self.clickPoint = None
+        global minRadiusVal
+        minRadiusVal = -1
+        global maxRadiusVal
+        maxRadiusVal = -1
+
         
         self.video_source = 0 # determines the video feed
         self.vid = cv2.VideoCapture(self.video_source)
@@ -55,15 +60,17 @@ class VideoWidget(tk.Frame):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT,1.2,100)
-
+                global circles
+                circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.5, 200, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
+                
                 if circles is not None:
+                    
+
                     circles = np.round(circles[0, :]).astype("int")
                     
                     for (x, y, r) in circles:
                         cv2.circle(frame, (x,y), r, (0,255,0), 4)
-                        print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
-                
+                        #print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
                 #cv2.imshow('Video', frame)
                 if (self.points):
                     for point in self.points: 
@@ -112,6 +119,19 @@ class VideoWidget(tk.Frame):
             
     def getClickPoint(self):
         return clickPoint
+
+    def getDetectedCircles(self):
+        return circles
+    
+    def setDetectSettings(self, radiusValues):
+        #print("video widget function called!")
+        global minRadiusVal
+        minRadiusVal = radiusValues[0]
+        #print(str(radiusValues[0]))
+        global maxRadiusVal
+        maxRadiusVal = radiusValues[1]
+        #print(str(radiusValues[1]))
+    
 
     def __del__(self):
         if (self.vid.isOpened()):
