@@ -59,8 +59,8 @@ class VideoWidget(tk.Frame):
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                GaussBlur = cv2.GaussianBlur(gray, (7, 7), cv2.BORDER_DEFAULT)
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
+                GaussBlur = cv2.GaussianBlur(gray, (7, 7), cv2.BORDER_DEFAULT) #Incorporates a Gaussian Blur into the image.
                 global circles
                 circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1.5, 200, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
                 
