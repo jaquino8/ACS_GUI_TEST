@@ -60,8 +60,9 @@ class VideoWidget(tk.Frame):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                GaussBlur = cv2.GaussianBlur(gray, (7, 7), cv2.BORDER_DEFAULT)
                 global circles
-                circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.5, 200, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
+                circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1.5, 200, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
                 
                 if circles is not None:
                     
@@ -69,13 +70,13 @@ class VideoWidget(tk.Frame):
                     circles = np.round(circles[0, :]).astype("int")
                     
                     for (x, y, r) in circles:
-                        cv2.circle(frame, (x,y), r, (0,255,0), 4)
+                        cv2.circle(GaussBlur, (x,y), r, (212,175,55), 4)
                         #print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
                 #cv2.imshow('Video', frame)
                 if (self.points):
                     for point in self.points: 
-                        cv2.circle(frame, point, 5, (0, 0, 255), 1)
-                return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                        cv2.circle(GaussBlur, point, 5, (255, 0, 0), 1)
+                return (ret, GaussBlur)
             else:
                 return (ret, None)
         else:
