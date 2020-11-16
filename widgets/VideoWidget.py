@@ -1,4 +1,5 @@
 import tkinter as tk
+import numpy.core.multiarray
 import cv2 as cv2
 import numpy as np
 import PIL.Image, PIL.ImageTk
@@ -65,11 +66,15 @@ class VideoWidget(tk.Frame):
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
+                frame = frame.astype('uint8')
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
                 GaussBlur = cv2.GaussianBlur(gray, (7, 7), cv2.BORDER_DEFAULT) #Incorporates a Gaussian Blur into the image.
                 global circles
-                circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1.5, 200, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
-                
+                #circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.5, 200, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
+                #circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 200, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
+                circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1, 200, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
+
+
                 if circles is not None:
                     
 
