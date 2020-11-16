@@ -72,7 +72,7 @@ class VideoWidget(tk.Frame):
                 global circles
                 #circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.5, 200, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
                 #circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 200, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
-                circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1, 200, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
+                circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1, 50, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
 
 
                 if circles is not None:
