@@ -70,13 +70,14 @@ class VideoWidget(tk.Frame):
                     circles = np.round(circles[0, :]).astype("int")
                     
                     for (x, y, r) in circles:
-                        cv2.circle(GaussBlur, (x,y), r, (212,175,55), 4)
+                        cv2.circle(frame, (x,y), r, (212,175,55), 4)
                         #print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
-                #cv2.imshow('Video', frame)
+                cv2.imshow('Video', GaussBlur)
                 if (self.points):
                     for point in self.points: 
-                        cv2.circle(GaussBlur, point, 5, (255, 0, 0), 1)
-                return (ret, GaussBlur)
+                        cv2.circle(frame, point, 5, (0, 0, 255), 1)
+                #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             else:
                 return (ret, None)
         else:
