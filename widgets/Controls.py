@@ -81,21 +81,37 @@ class LeftControlPanel(tk.Frame):
         minRadiusLabel.grid(row=0,column=0)
 
         self.minRadiusEntry = tk.Entry(cirDetectSettings, width=10)
+        self.minRadiusEntry.insert(0, "-1")
         self.minRadiusEntry.grid(row=0,column=1)
 
         minRadiusLabel = tk.Label(cirDetectSettings, text= "Max Radius:")
         minRadiusLabel.grid(row=1,column=0)
         
         self.maxRadiusEntry = tk.Entry(cirDetectSettings, width=10)
+        self.maxRadiusEntry.insert(0, "-1")
         self.maxRadiusEntry.grid(row=1,column=1)
 
+        param1Label = tk.Label(cirDetectSettings, text= "Param1:")
+        param1Label.grid(row=2,column=0)
+        
+        self.param1Entry = tk.Entry(cirDetectSettings, width=10)
+        self.param1Entry.insert(0, "1")
+        self.param1Entry.grid(row=2,column=1)
+
+        param2Label = tk.Label(cirDetectSettings, text= "Param2:")
+        param2Label.grid(row=3,column=0)
+        
+        self.param2Entry = tk.Entry(cirDetectSettings, width=10, text="1")
+        self.param2Entry.insert(0, "1")
+        self.param2Entry.grid(row=3,column=1)
+
         self.detectedCircles = tk.Label(cirDetectSettings, text = "Circles Detected: ")
-        self.detectedCircles.grid(row=2,column=0)
+        self.detectedCircles.grid(row=4,column=0)
         self.detectedCirclestextBox = tk.Text(cirDetectSettings, state=tk.DISABLED, height = 1,width = 3)
-        self.detectedCirclestextBox.grid(row=2,column=1)
+        self.detectedCirclestextBox.grid(row=4,column=1)
 
         self.setButtonDetectSettings = tk.Button(cirDetectSettings, text="Set", width=15)
-        self.setButtonDetectSettings.grid(row=3,column=0,columnspan=2)
+        self.setButtonDetectSettings.grid(row=5,column=0,columnspan=2)
 
 
     def setROIPoint(self,point):
@@ -135,7 +151,13 @@ class LeftControlPanel(tk.Frame):
     def getDetectSettings(self):
         minRadius = self.minRadiusEntry.get()
         maxRadius = self.maxRadiusEntry.get()
-        return (int(minRadius), int(maxRadius))
+        radiusValues = (int(minRadius), int(maxRadius))
+
+        userParam1 = self.param1Entry.get()
+        userParam2 = self.param2Entry.get()
+        userParamValues = (int(userParam1),int(userParam2))
+
+        return (radiusValues, userParamValues)
 
     def detectedCirCount(self, count):
         self.detectedCirclestextBox.config(state=tk.NORMAL)

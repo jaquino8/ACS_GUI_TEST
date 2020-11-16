@@ -25,6 +25,12 @@ class VideoWidget(tk.Frame):
         global maxRadiusVal
         maxRadiusVal = -1
 
+        global userParam1
+        userParam1 = 1
+
+        global userParam2
+        userParam2 = 1
+
         
         self.video_source = 0 # determines the video feed
         self.vid = cv2.VideoCapture(self.video_source)
@@ -62,7 +68,7 @@ class VideoWidget(tk.Frame):
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
                 GaussBlur = cv2.GaussianBlur(gray, (7, 7), cv2.BORDER_DEFAULT) #Incorporates a Gaussian Blur into the image.
                 global circles
-                circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1.5, 200, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
+                circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1.5, 200, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
                 
                 if circles is not None:
                     
@@ -72,7 +78,7 @@ class VideoWidget(tk.Frame):
                     for (x, y, r) in circles:
                         cv2.circle(frame, (x,y), r, (212,175,55), 4)
                         #print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
-                cv2.imshow('Video', GaussBlur)
+                #cv2.imshow('Video', GaussBlur)
                 if (self.points):
                     for point in self.points: 
                         cv2.circle(frame, point, 5, (0, 0, 255), 1)
@@ -125,14 +131,20 @@ class VideoWidget(tk.Frame):
     def getDetectedCircles(self):
         return circles
     
-    def setDetectSettings(self, radiusValues):
+    def setDetectSettings(self, settings):
         #print("video widget function called!")
         global minRadiusVal
-        minRadiusVal = radiusValues[0]
+        minRadiusVal = settings[0][0]
         #print(str(radiusValues[0]))
         global maxRadiusVal
-        maxRadiusVal = radiusValues[1]
+        maxRadiusVal = settings[0][1]
         #print(str(radiusValues[1]))
+
+        global userParam1
+        userParam1 = settings[1][0]
+
+        global userParam2
+        userParam2 = settings[1][1]
     
 
     def __del__(self):
