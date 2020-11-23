@@ -68,9 +68,9 @@ class VideoWidget(tk.Frame):
 
             if (ret):
                 
-                """if testStartPoint is not None:
+                if testStartPoint is not None:
                     cv2.circle(frame, testStartPoint, 5, (0, 0, 255), 4)
-                """
+                
                 """
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
