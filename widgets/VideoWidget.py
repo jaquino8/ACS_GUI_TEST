@@ -22,18 +22,24 @@ class VideoWidget(tk.Frame):
         self.endPoint = None
         self.numOfPoints = None
         self.clickPoint = None
+
+        global circles
+        circles = []
+
         global minRadiusVal
         minRadiusVal = -1
         global maxRadiusVal
         maxRadiusVal = -1
-
+        
         global userParam1
         userParam1 = 1
 
         global userParam2
         userParam2 = 1
 
-        
+        global detectionActive
+        detectionActive = 0
+
         self.video_source = 0 # determines the video feed
         self.vid = cv2.VideoCapture(self.video_source)
 
@@ -62,29 +68,31 @@ class VideoWidget(tk.Frame):
 
             if (ret):
                 
-                if testStartPoint is not None:
+                """if testStartPoint is not None:
                     cv2.circle(frame, testStartPoint, 5, (0, 0, 255), 4)
+                """
                 """
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
-                GaussBlur = cv2.GaussianBlur(gray, (7, 7), cv2.BORDER_DEFAULT) #Incorporates a Gaussian Blur into the image.
-                global circles
-                circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1.5, 200, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
+                if(detectionActive == 1):
+                    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
+                    GaussBlur = cv2.GaussianBlur(gray, (7, 7), cv2.BORDER_DEFAULT) #Incorporates a Gaussian Blur into the image.
+                    global circles
+                    circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1, 50, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
                 
-                if circles is not None:
+                    if circles is not None:
 
-                    circles = np.round(circles[0, :]).astype("int")
-                    
-                    for (x, y, r) in circles:
-                        cv2.circle(frame, (x,y), r, (212,175,55), 4)
-                        #print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
-                #cv2.imshow('Video', GaussBlur)
-                if (self.points):
-                    for point in self.points: 
-                        cv2.circle(frame, point, 5, (0, 0, 255), 1)
-                #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                        circles = np.round(circles[0, :]).astype("int")
+                        
+                        for (x, y, r) in circles:
+                            cv2.circle(frame, (x,y), r, (212,175,55), 4)
+                            #print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
+                    #cv2.imshow('Video', GaussBlur)
+                    if (self.points):
+                        for point in self.points: 
+                            cv2.circle(frame, point, 5, (0, 0, 255), 1)
+                    #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
                 return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             else:
                 return (ret, None)
@@ -93,7 +101,7 @@ class VideoWidget(tk.Frame):
 
     def update(self):
         ret, frame = self.get_frame()
-        
+
         if (ret):
             self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
             self.videoCanvas.create_image(0, 0, image= self.photo, anchor = tk.NW)        
@@ -105,9 +113,14 @@ class VideoWidget(tk.Frame):
         # Will add points to draw, will be static on the video feed
         self.points = line
 
+
     def drawLines(self):
         raise NotImplementedError
         
+    def activateDetection(self, active):
+        global detectionActive
+        detectionActive = active
+    
     def drawStartPoint(self, origin):
         global testStartPoint
         testStartPoint = origin

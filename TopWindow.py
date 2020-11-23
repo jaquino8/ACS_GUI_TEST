@@ -20,6 +20,7 @@ class TopWindow(tk.Frame):
     def update(self):
         self.VideoWidget.update()
         self.LeftControlPanel.detectedCirCount(len(self.VideoWidget.getDetectedCircles()))
+        self.VideoWidget.activateDetection(self.LeftControlPanel.getActiveCirDetect())
         msDelay = 15
         self.parent.after(msDelay, self.update)
 
