@@ -17,8 +17,8 @@ class VideoWidget(tk.Frame):
         self.lines = dict() 
         self.points = [] 
         self.startPoint = None
-        global testStartPoint
-        testStartPoint = None
+        global userClickStartPoint
+        userClickStartPoint = None
         self.endPoint = None
         self.numOfPoints = None
         self.clickPoint = None
@@ -68,13 +68,17 @@ class VideoWidget(tk.Frame):
 
             if (ret):
                 
-                if testStartPoint is not None:
-                    cv2.circle(frame, testStartPoint, 5, (0, 0, 255), 4)
+                if userClickStartPoint is not None:
+                    cv2.circle(frame, userClickStartPoint, 5, (0, 0, 255), 4)
                 
                 """
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
+                if (self.points):
+                        for point in self.points: 
+                            cv2.circle(frame, point, 5, (0, 0, 255), 1)
+
                 if(detectionActive == 1):
                     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
                     GaussBlur = cv2.GaussianBlur(gray, (7, 7), cv2.BORDER_DEFAULT) #Incorporates a Gaussian Blur into the image.
@@ -89,9 +93,7 @@ class VideoWidget(tk.Frame):
                             cv2.circle(frame, (x,y), r, (212,175,55), 4)
                             #print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
                     #cv2.imshow('Video', GaussBlur)
-                    if (self.points):
-                        for point in self.points: 
-                            cv2.circle(frame, point, 5, (0, 0, 255), 1)
+                    
                     #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
                 return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             else:
@@ -122,11 +124,11 @@ class VideoWidget(tk.Frame):
         detectionActive = active
     
     def drawStartPoint(self, origin):
-        global testStartPoint
-        testStartPoint = origin
+        global userClickStartPoint
+        userClickStartPoint = origin
         #self.startPoint = origin
         #print("Start Point: " + str(self.startPoint))
-        print("Start Point: " + str(testStartPoint))
+        print("Start Point: " + str(userClickStartPoint))
         print("drew a start point!")
 
     # Color: (B, G, R)
