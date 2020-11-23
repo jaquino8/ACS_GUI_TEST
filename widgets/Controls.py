@@ -20,21 +20,23 @@ class LeftControlPanel(tk.Frame):
         StartLabel = tk.Label(startPoint, text = "Start: ")
         StartLabel.grid(row=0, column=0)
 
+        self.StartTextBox = tk.Text(startPoint, state=tk.DISABLED, height = 1,width = 12)
+        self.StartTextBox.grid(row=0,column=1)
 
-        parenthCharSX1 = tk.Label(startPoint,text ="(")
-        parenthCharSX1.grid(row=0, column=1)
+        #parenthCharSX1 = tk.Label(startPoint,text ="(")
+        #parenthCharSX1.grid(row=0, column=1)
 
-        self.startXEntry = tk.Entry(startPoint,width=5)
-        self.startXEntry.grid(row=0, column=2)
+        #self.startXEntry = tk.Entry(startPoint,width=5)
+        #self.startXEntry.grid(row=0, column=2)
 
-        commaCharSX = tk.Label(startPoint, text =",")
-        commaCharSX.grid(row=0, column=3)
+        #commaCharSX = tk.Label(startPoint, text =",")
+        #commaCharSX.grid(row=0, column=3)
 
-        self.startYEntry = tk.Entry(startPoint,width=5)
-        self.startYEntry.grid(row=0,column=4)
+        #self.startYEntry = tk.Entry(startPoint,width=5)
+        #self.startYEntry.grid(row=0,column=4)
 
-        parenthCharSX2 = tk.Label(startPoint,text =")")
-        parenthCharSX2.grid(row=0,column=5)
+        #parenthCharSX2 = tk.Label(startPoint,text =")")
+        #parenthCharSX2.grid(row=0,column=5)
 
         # Endpoint / ROI
         endPoint = tk.Frame(self.panel)
@@ -113,6 +115,15 @@ class LeftControlPanel(tk.Frame):
         self.setButtonDetectSettings = tk.Button(cirDetectSettings, text="Set", width=15)
         self.setButtonDetectSettings.grid(row=5,column=0,columnspan=2)
 
+    def setStartPoint(self,point):
+        self.StartTextBox.config(state=tk.NORMAL)
+        self.StartTextBox.delete('1.0',tk.END)
+        global startPoint 
+        startPoint = point
+        output = "(" + str(point[0]) + "," + str(point[1]) + ")"
+        #print(output)
+        self.StartTextBox.insert(tk.END,output)
+        self.StartTextBox.config(state=tk.DISABLED)
 
     def setROIPoint(self,point):
         self.ROItextBox.config(state=tk.NORMAL)
@@ -125,8 +136,8 @@ class LeftControlPanel(tk.Frame):
         self.ROItextBox.config(state=tk.DISABLED)
 
     def getStartEntry(self):
-        x = self.startXEntry.get()
-        y = self.startYEntry.get()
+        x = startPoint[0]
+        y = startPoint[1]
 
         return (int(x), int(y))
     
@@ -163,6 +174,7 @@ class LeftControlPanel(tk.Frame):
         self.detectedCirclestextBox.config(state=tk.NORMAL)
         self.detectedCirclestextBox.delete('1.0',tk.END)
         output = str(count)
+       
         #print(output)
         self.detectedCirclestextBox.insert(tk.END,output)
         self.detectedCirclestextBox.config(state=tk.DISABLED)

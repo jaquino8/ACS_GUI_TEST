@@ -22,9 +22,10 @@ class DEC:
 
         self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.drawSingleLineEvent)
         self.TopWindow.LeftControlPanel.setButtonDetectSettings.bind("<Button-1>",self.setDetectSettings)
-        self.TopWindow.VideoWidget.bind_class("Canvas","<Button-1>",self.clickCoordinates)
-        self.TopWindow.VideoWidget.bind_class("Canvas","<Enter>",self.updateCirCount)
-        self.TopWindow.VideoWidget.bind_class("Canvas","<Leave>",self.updateCirCount)
+        self.TopWindow.VideoWidget.bind_class("Canvas","<Button-3>",self.clickCoordinates)
+        self.TopWindow.VideoWidget.bind_class("Canvas","<Button-1>",self.drawStartPoint)
+        #self.TopWindow.VideoWidget.bind_class("Canvas","<Enter>",self.updateCirCount)
+        #self.TopWindow.VideoWidget.bind_class("Canvas","<Leave>",self.updateCirCount)
         
 
     def arcPath(self):
@@ -102,6 +103,11 @@ class DEC:
         function = switcher.get(movementFunc)
         return function()
 
+    def drawStartPoint(self, event):
+        startPoint = (event.x,event.y)
+        self.VideoWidget.drawStartPoint(startPoint)
+        self.TopWindow.LeftControlPanel.setStartPoint(startPoint)
+
     def clickCoordinates(self,event):
         clickPoint = (event.x,event.y)
         #print(clickPoint)
@@ -118,6 +124,6 @@ class DEC:
         self.VideoWidget.setDetectSettings(self.TopWindow.LeftControlPanel.getDetectSettings())
      
         
-    def updateCirCount(self, event):
+    def updateCirCount(self):
         detectedCircles = self.VideoWidget.getDetectedCircles()
         self.TopWindow.LeftControlPanel.detectedCirCount(len(detectedCircles))

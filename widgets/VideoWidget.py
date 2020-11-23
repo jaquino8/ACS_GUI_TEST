@@ -17,6 +17,8 @@ class VideoWidget(tk.Frame):
         self.lines = dict() 
         self.points = [] 
         self.startPoint = None
+        global testStartPoint
+        testStartPoint = None
         self.endPoint = None
         self.numOfPoints = None
         self.clickPoint = None
@@ -60,8 +62,9 @@ class VideoWidget(tk.Frame):
 
             if (ret):
                 
-                """if(self.startPoint):
-                    cv2.circle(frame, self.startPoint[0], 5, self.startPoint[1], -1)
+                if testStartPoint is not None:
+                    cv2.circle(frame, testStartPoint, 5, (0, 0, 255), 4)
+                """
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
@@ -71,7 +74,6 @@ class VideoWidget(tk.Frame):
                 circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1.5, 200, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
                 
                 if circles is not None:
-                    
 
                     circles = np.round(circles[0, :]).astype("int")
                     
@@ -91,7 +93,7 @@ class VideoWidget(tk.Frame):
 
     def update(self):
         ret, frame = self.get_frame()
-
+        
         if (ret):
             self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
             self.videoCanvas.create_image(0, 0, image= self.photo, anchor = tk.NW)        
@@ -106,6 +108,14 @@ class VideoWidget(tk.Frame):
     def drawLines(self):
         raise NotImplementedError
         
+    def drawStartPoint(self, origin):
+        global testStartPoint
+        testStartPoint = origin
+        #self.startPoint = origin
+        #print("Start Point: " + str(self.startPoint))
+        print("Start Point: " + str(testStartPoint))
+        print("drew a start point!")
+
     # Color: (B, G, R)
     def drawPoint(self, x, y, color, position):
         
@@ -129,6 +139,8 @@ class VideoWidget(tk.Frame):
         return clickPoint
 
     def getDetectedCircles(self):
+        if(circles is None):
+            return []
         return circles
     
     def setDetectSettings(self, settings):
@@ -146,7 +158,7 @@ class VideoWidget(tk.Frame):
         global userParam2
         userParam2 = settings[1][1]
     
-
+    
     def __del__(self):
         if (self.vid.isOpened()):
             self.vid.release()
