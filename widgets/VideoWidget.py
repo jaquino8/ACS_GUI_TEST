@@ -65,17 +65,21 @@ class VideoWidget(tk.Frame):
     def get_frame(self):
         if (self.vid.isOpened()):
             ret, frame = self.vid.read()
+            imageCopy = frame.copy()
 
             if (ret):
-                
                 if userClickStartPoint is not None:
                     cv2.circle(frame, userClickStartPoint, 5, (0, 0, 255), 4)
                 
-                """
-                if(self.endPoint):
-                    cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
-                """
-                
+                if (self.points):
+                        for point in self.points: 
+                            
+                            cv2.circle(imageCopy, point, 5, (0, 0, 255), 1)
+
+                            #cv2.circle(frame, point, 5, (0, 0, 255), 1)
+                            #cv2.imshow('Video', imageCopy)
+                            #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                        cv2.imshow('Output', imageCopy)
 
                 if(detectionActive == 1):
                     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
@@ -84,9 +88,7 @@ class VideoWidget(tk.Frame):
                     circles = cv2.HoughCircles(GaussBlur, cv2.HOUGH_GRADIENT, 1, 50, param1=userParam1, param2=userParam2, minRadius=minRadiusVal, maxRadius=maxRadiusVal)
                 
                     if circles is not None:
-
                         circles = np.round(circles[0, :]).astype("int")
-                        
                         for (x, y, r) in circles:
                             cv2.circle(frame, (x,y), r, (212,175,55), 4)
                             #print("x: " + str(x) + ", y: " + str(y) + ", r: " + str(r))
@@ -139,11 +141,6 @@ class VideoWidget(tk.Frame):
                 self.endPoint = ((x, y), color)
             else:
                 self.points.append((x, y), color)
-        
-        if (self.points):
-            i = 0 
-            for point in self.points:
-                cv2.circle(frame, point, 5, (0, 0, 255), 1)
 
     
     def click_event(self, event, x, y, flags, params):
