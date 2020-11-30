@@ -75,9 +75,7 @@ class VideoWidget(tk.Frame):
                 if(self.endPoint):
                     cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
                 """
-                if (self.points):
-                        for point in self.points: 
-                            cv2.circle(frame, point, 5, (0, 0, 255), 1)
+                
 
                 if(detectionActive == 1):
                     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
@@ -141,6 +139,11 @@ class VideoWidget(tk.Frame):
                 self.endPoint = ((x, y), color)
             else:
                 self.points.append((x, y), color)
+        
+        if (self.points):
+            i = 0 
+            for point in self.points:
+                cv2.circle(frame, point, 5, (0, 0, 255), 1)
 
     
     def click_event(self, event, x, y, flags, params):
