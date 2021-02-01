@@ -63,21 +63,26 @@ class VideoWidget(tk.Frame):
         self.videoCanvas.grid(row=1, column=0)
         
     def get_frame(self):
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+
         if (self.vid.isOpened()):
             ret, frame = self.vid.read()
+            imageCopy = frame.copy()
 
             if (ret):
                 
                 if userClickStartPoint is not None:
                     cv2.circle(frame, userClickStartPoint, 5, (0, 0, 255), 4)
-                
-                """
-                if(self.endPoint):
-                    cv2.circle(frame, self.endPoint[0], 5, self.endPoint[1], -1)
-                """
+
                 if (self.points):
                         for point in self.points: 
-                            cv2.circle(frame, point, 5, (0, 0, 255), 1)
+                            cv2.circle(imageCopy, point, 5, (0, 0, 255), 1)
+                            out.write(imageCopy)
+                            #cv2.circle(frame, point, 5, (0, 0, 255), 1)
+                            #cv2.imshow('Video', imageCopy)
+                            #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                        cv2.imshow('Output', imageCopy)
 
                 if(detectionActive == 1):
                     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
