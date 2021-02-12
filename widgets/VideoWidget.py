@@ -69,6 +69,7 @@ class VideoWidget(tk.Frame):
         if (self.vid.isOpened()):
             ret, frame = self.vid.read()
             imageCopy = frame.copy()
+            pointCount = 1
 
             if (ret):
                 
@@ -77,12 +78,13 @@ class VideoWidget(tk.Frame):
 
                 if (self.points):
                         for point in self.points: 
-                            cv2.circle(imageCopy, point, 5, (0, 0, 255), 1)
-                            out.write(imageCopy)
+                            imageCopypointCount = imageCopy.copy()
+                            cv2.circle(imageCopypointCount, point, 5, (0, 0, 255), 1)
+                            out.write(imageCopypointCount)
                             #cv2.circle(frame, point, 5, (0, 0, 255), 1)
                             #cv2.imshow('Video', imageCopy)
                             #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                        cv2.imshow('Output', imageCopy)
+                        cv2.imshow('Output', imageCopypointCount)
 
                 if(detectionActive == 1):
                     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
