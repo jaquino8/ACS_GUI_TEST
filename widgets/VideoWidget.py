@@ -1,6 +1,7 @@
 import tkinter as tk
 import cv2 as cv2
 import numpy as np
+import time
 import PIL.Image, PIL.ImageTk
 
 class VideoWidget(tk.Frame):
@@ -69,7 +70,6 @@ class VideoWidget(tk.Frame):
         if (self.vid.isOpened()):
             ret, frame = self.vid.read()
             imageCopy = frame.copy()
-            pointCount = 1
 
             if (ret):
                 
@@ -79,8 +79,11 @@ class VideoWidget(tk.Frame):
                 if (self.points):
                         for point in self.points: 
                             imageCopypointCount = imageCopy.copy()
-                            cv2.circle(imageCopypointCount, point, 5, (0, 0, 255), 1)
-                            out.write(imageCopypointCount)
+                            cv2.circle(imageCopypointCount, point, 5, (255, 255, 255), 1)
+
+                            for frameDelay in range(1, 10): #this loop creates multiple frames for a single circle on a frame
+                                out.write(imageCopypointCount)
+
                             #cv2.circle(frame, point, 5, (0, 0, 255), 1)
                             #cv2.imshow('Video', imageCopy)
                             #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
