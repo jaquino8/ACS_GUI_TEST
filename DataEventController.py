@@ -1,4 +1,5 @@
 import tkinter as tk
+import cv2 as cv2
 from widgets.Controls import LeftControlPanel
 from widgets.VideoWidget import VideoWidget
 import math
@@ -22,6 +23,8 @@ class DEC:
 
         self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.drawSingleLineEvent)
         self.TopWindow.LeftControlPanel.setButtonDetectSettings.bind("<Button-1>",self.setDetectSettings)
+        self.TopWindow.LeftControlPanel.showVideo.bind("<Button-1>", self.showVideoEvent)
+
         self.TopWindow.VideoWidget.bind_class("Canvas","<Button-3>",self.clickCoordinates)
         self.TopWindow.VideoWidget.bind_class("Canvas","<Button-1>",self.drawStartPoint)
         #self.TopWindow.VideoWidget.bind_class("Canvas","<Enter>",self.updateCirCount)
@@ -127,3 +130,30 @@ class DEC:
     def updateCirCount(self):
         detectedCircles = self.VideoWidget.getDetectedCircles()
         self.TopWindow.LeftControlPanel.detectedCirCount(len(detectedCircles))
+
+    def showVideoEvent(self, event):
+        # Create a VideoCapture object and read from input file 
+        cap = cv2.VideoCapture('output.avi') 
+   
+        # Check if camera opened successfully 
+        if (cap.isOpened()== False):  
+            print("Error opening video  file") 
+   
+        # Read until video is completed 
+        while(cap.isOpened()): 
+      
+        # Capture frame-by-frame 
+            ret, frame = cap.read() 
+            if ret == True: 
+   
+            # Display the resulting frame 
+                cv2.imshow('Frame', frame) 
+   
+            # Press Q on keyboard to  exit 
+                if cv2.waitKey(25) & 0xFF == ord('q'): 
+                    break
+   
+            # Break the loop 
+            else:  
+                break
+   

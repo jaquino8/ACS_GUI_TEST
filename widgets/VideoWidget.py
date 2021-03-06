@@ -87,7 +87,7 @@ class VideoWidget(tk.Frame):
                             #cv2.circle(frame, point, 5, (0, 0, 255), 1)
                             #cv2.imshow('Video', imageCopy)
                             #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                        cv2.imshow('Output', imageCopypointCount)
+                        #cv2.imshow('Output', imageCopypointCount)
 
                 if(detectionActive == 1):
                     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
