@@ -27,6 +27,9 @@ class VideoWidget(tk.Frame):
         global circles
         circles = []
 
+        global colorDictionary
+        colorDictionary = [(255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)]
+
         global minRadiusVal
         minRadiusVal = -1
         global maxRadiusVal
@@ -66,6 +69,7 @@ class VideoWidget(tk.Frame):
     def get_frame(self):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+        colorID = 0
 
         if (self.vid.isOpened()):
             ret, frame = self.vid.read()
@@ -77,12 +81,15 @@ class VideoWidget(tk.Frame):
                     cv2.circle(frame, userClickStartPoint, 5, (0, 0, 255), 4)
 
                 if (self.points):
-                        for point in self.points: 
-                            imageCopypointCount = imageCopy.copy()
-                            cv2.circle(imageCopypointCount, point, 5, (255, 255, 255), 1)
+                        for paths in self.points:
+                            for points in paths:
+                                imageCopypointCount = imageCopy.copy()
+                                cv2.circle(imageCopypointCount, points, 5, colorDictionary[colorID], 1)
+                            
 
-                            for frameDelay in range(1, 10): #this loop creates multiple frames for a single circle on a frame
-                                out.write(imageCopypointCount)
+                                for frameDelay in range(1, 10): #this loop creates multiple frames for a single circle on a frame
+                                    out.write(imageCopypointCount)
+                            colorID += 1
 
                             #cv2.circle(frame, point, 5, (0, 0, 255), 1)
                             #cv2.imshow('Video', imageCopy)
@@ -123,7 +130,9 @@ class VideoWidget(tk.Frame):
 
     def drawLineSimple(self, line):
         # Will add points to draw, will be static on the video feed
-        self.points = line
+        x = [(111, 111), (222, 222), (333, 333)]
+        self.points.append(line)
+        print(self.points)
 
 
     def drawLines(self):

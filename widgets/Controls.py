@@ -72,7 +72,7 @@ class LeftControlPanel(tk.Frame):
 
 
         #press button to get coordinates and then calculate the path
-        self.setButtonEX = tk.Button(numPoints, text="Set", width=15)
+        self.setButtonEX = tk.Button(numPoints, text="Add Path", width=15)
         self.setButtonEX.grid(row=4, column=0, columnspan=3)
 
         #press button to display video
