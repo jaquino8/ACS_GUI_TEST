@@ -76,8 +76,12 @@ class LeftControlPanel(tk.Frame):
         self.setButtonEX.grid(row=4, column=0, columnspan=3)
 
         #press button to display video
+        self.savePaths = tk.Button(numPoints, text="Save Paths", width=15)
+        self.savePaths.grid(row=5, column=0, columnspan=3)
+
+        #press button to display video
         self.showVideo = tk.Button(numPoints, text="Show Path", width=15)
-        self.showVideo.grid(row=5, column=0, columnspan=3)
+        self.showVideo.grid(row=6, column=0, columnspan=3)
 
 
   

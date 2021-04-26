@@ -16,7 +16,8 @@ class VideoWidget(tk.Frame):
         # dictionary of lines
         # { "LineID": [List of points on the line], ..., "LineIDX" :[]}
         self.lines = dict() 
-        self.points = [] 
+        global allpoints
+        allpoints = [] 
         self.startPoint = None
         global userClickStartPoint
         userClickStartPoint = None
@@ -66,35 +67,22 @@ class VideoWidget(tk.Frame):
         self.videoCanvas = tk.Canvas(self.videoFrame, width = self.width, height = self.height)
         self.videoCanvas.grid(row=1, column=0)
         
+    def get_video(self):
+        ret, frame = self.vid.read()
+        return ret, frame
+
     def get_frame(self):
-        fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+        
         colorID = 0
 
         if (self.vid.isOpened()):
             ret, frame = self.vid.read()
-            imageCopy = frame.copy()
 
             if (ret):
                 
                 if userClickStartPoint is not None:
                     cv2.circle(frame, userClickStartPoint, 5, (0, 0, 255), 4)
-
-                if (self.points):
-                        for paths in self.points:
-                            for points in paths:
-                                imageCopypointCount = imageCopy.copy()
-                                cv2.circle(imageCopypointCount, points, 5, colorDictionary[colorID], 1)
-                            
-
-                                for frameDelay in range(1, 10): #this loop creates multiple frames for a single circle on a frame
-                                    out.write(imageCopypointCount)
-                            colorID += 1
-
-                            #cv2.circle(frame, point, 5, (0, 0, 255), 1)
-                            #cv2.imshow('Video', imageCopy)
-                            #return (ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                        #cv2.imshow('Output', imageCopypointCount)
+                
 
                 if(detectionActive == 1):
                     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Incorporates a grayscale into the image
@@ -130,9 +118,8 @@ class VideoWidget(tk.Frame):
 
     def drawLineSimple(self, line):
         # Will add points to draw, will be static on the video feed
-        x = [(111, 111), (222, 222), (333, 333)]
-        self.points.append(line)
-        print(self.points)
+        allpoints.append(line)
+        print(allpoints)
 
 
     def drawLines(self):
@@ -159,7 +146,7 @@ class VideoWidget(tk.Frame):
             elif (position == 1): #end point
                 self.endPoint = ((x, y), color)
             else:
-                self.points.append((x, y), color)
+                allpoints.append((x, y), color)
 
     
     def click_event(self, event, x, y, flags, params):
@@ -192,6 +179,10 @@ class VideoWidget(tk.Frame):
         global userParam2
         userParam2 = settings[1][1]
     
+    def setPoints(self):
+        global allpoints
+        allpoints1 = allpoints
+        return allpoints1
     
     def __del__(self):
         if (self.vid.isOpened()):

@@ -9,6 +9,8 @@ class DEC:
         
         self.TopWindow = TopWindow
         self.VideoWidget = VideoWidget
+        global videoPoints
+        videoPoints = []
 
         self.bindEvents()
 
@@ -17,12 +19,17 @@ class DEC:
         # point format: ((x, y), (B, G, R))
         self.lines = dict() 
 
+        global colorDictionary
+        colorDictionary = [(255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)]
+        
+
         # pointCollections = None # should be a collection of points
         
     def bindEvents(self):
 
         self.TopWindow.LeftControlPanel.setButtonEX.bind("<Button-1>", self.drawSingleLineEvent)
         self.TopWindow.LeftControlPanel.setButtonDetectSettings.bind("<Button-1>",self.setDetectSettings)
+        self.TopWindow.LeftControlPanel.savePaths.bind("<Button-1>", self.savePathsEvent)
         self.TopWindow.LeftControlPanel.showVideo.bind("<Button-1>", self.showVideoEvent)
 
         self.TopWindow.VideoWidget.bind_class("Canvas","<Button-3>",self.clickCoordinates)
@@ -131,29 +138,44 @@ class DEC:
         detectedCircles = self.VideoWidget.getDetectedCircles()
         self.TopWindow.LeftControlPanel.detectedCirCount(len(detectedCircles))
 
+    def savePathsEvent(self, event):
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+        videoPoints = self.VideoWidget.setPoints()
+        videoRet, videoFrame = self.VideoWidget.get_video()
+        colorID = 0
+
+        if (videoPoints):
+            imageCopypointCount = videoFrame.copy()
+            for paths in range(0, len(videoPoints[0])): 
+                for frameCount in range(0, 10):    
+                    out.write(imageCopypointCount) 
+                imageCopypointCount = videoFrame.copy()
+                            
+                for points1 in range(0, len(videoPoints)):
+                    print(videoPoints[points1][paths])
+                    cv2.circle(imageCopypointCount, videoPoints[points1][paths], 5, colorDictionary[points1], 1)
+            for frameCount in range(0, 10):    
+                out.write(imageCopypointCount)
+
     def showVideoEvent(self, event):
-        # Create a VideoCapture object and read from input file 
         cap = cv2.VideoCapture('output.avi') 
    
-        # Check if camera opened successfully 
         if (cap.isOpened()== False):  
             print("Error opening video  file") 
    
-        # Read until video is completed 
         while(cap.isOpened()): 
-      
-        # Capture frame-by-frame 
             ret, frame = cap.read() 
             if ret == True: 
-   
-            # Display the resulting frame 
                 cv2.imshow('Frame', frame) 
    
-            # Press Q on keyboard to  exit 
                 if cv2.waitKey(25) & 0xFF == ord('q'): 
                     break
    
-            # Break the loop 
             else:  
                 break
+                                
+
+
+        
    
